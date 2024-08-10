@@ -1,0 +1,22 @@
+const double kRadius0 = 0;
+const double kRadius4 = 4.0;
+const double kRadius6 = 6.0;
+const double kRadius8 = 8.0;
+const double kRadius10 = 10.0;
+const double kRadius12 = 12.0;
+const double kRadius16 = 16.0;
+const double kRadius18 = 18.0;
+const double kRadius20 = 20.0;
+const double kRadius24 = 24.0;
+const double kRadius30 = 30.0;
+const double kRadius32 = 32.0;
+const double kRadius64 = 64.0;
+const double kRadius96 = 96.0;
+const double kRadius100 = 100.0;
+
+const int sessionExpiredCode = 401;
+const int systemForbiddenCode = 403;
+const int printCharacterHalfMaxLength = 15;
+const int printCharacterMaxLength = 31;
+const int minimumPrivyTimeout = 30;
+const int defaultPrivyTimeout = 60;

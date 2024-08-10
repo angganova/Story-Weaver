@@ -1,0 +1,33 @@
+class ExtensionsVariable {
+  static const String dateFormatMMYYYY = 'MM/yyyy';
+  static const String dateFormatYYYYMMDD = 'yyyy-MM-dd';
+  static const String dateFormatYYYYMMDDHHMMSS = 'yyyy-MM-dd HH:mm:ss';
+  static const String dateFormatYYYYMMDDTHHMMSSZ = 'yyyy-MM-ddTHH:mm:ssZ';
+  static const String dateFormatDDMMMYYYYHHMM = 'dd MMM yyyy, HH:mm';
+  static const String dateFormatDDMMMMYYYYHHMM = 'dd MMMM yyyy, HH:mm';
+  static const String dateFormatDDMMMYYHHMMWithSlash = 'dd/MM/yy, HH:mm';
+  static const String dateFormatDDMMMYYYYHHMMWithSlash = 'dd/MM/yyyy, HH:mm';
+  static const String dateFormatDDMMMYYYYHHMMWithDot = 'dd MMM yyyy, HH.mm';
+  static const String dateFormatHHMMddMMMYYYY = 'HH:MM, dd MMM yyyy';
+  static const String dateFormatDDMMYYYY = 'dd MM yyyy';
+  static const String dateFormatDDMMYYYYWithSlash = 'dd/MM/yyyy';
+  static const String dateFormatISO = 'yyyy-MM-dd';
+  static const String dateFormatDDMMYYYYWithDot = 'dd.MM.yyyy';
+  static const String dateFormatDDMMYYWithDot = 'dd.MM.yy';
+  static const String dateFormatDDMMMYYYY = 'dd MMM yyyy';
+  static const String dateFormatDDMMMMYYYY = 'dd MMMM yyyy';
+  static const String dateFormatDDMMMM = 'dd MMMM';
+  static const String dateFormatDDMMWithSlash = 'dd/MM';
+  static const String dateFormatDDMMYYWithSlash = 'dd/MM yyyy';
+  static const String dateFormatDDMMM = 'dd MMM';
+  static const String dateFormatDDMMMYY = 'dd MMM yy';
+  static const String dateFormatHHmm = 'HH:mm';
+  static const String dateFormatEEEMMDYYYY = 'EEE MMM d yyyy';
+  static const String dateFormatEEEEDDMMMYYYY = 'EEEE, d MMM yyyy';
+  static const String dateFormatEEEEDDMMMMYYYY = 'EEEE, d MMMM yyyy';
+  static const String dateFormatMMMMDDYYYYWithComa = 'MMMM dd, yyyy';
+  static const String dateFormatDDMMMMYYYYWithComa = 'dd MMMM, yyyy';
+  static const String dateFormatMM = 'MM';
+  static const String dateFormatMMM = 'MMM';
+  static const String dateCustomFormatDDSTMMM = 'ddst MMM';
+}
