@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:story_weaver/app/components/list_item/list_tile.dart';
+import 'package:story_weaver/app/components/text/text_chips.dart';
 import 'package:story_weaver/data/model/main/title_detail_model.dart';
 import 'package:story_weaver/data/model/story/story_breakdown_model.dart';
 import 'package:story_weaver/system/global_extension.dart';
@@ -113,6 +114,11 @@ class _StoryPreparationScreenState extends State<StoryPreparationScreen> {
   Widget _bindItemContentView(StoryPreparationDetail item) {
     if (item.dataType.ignoreCase('internalOption')) {
       return _bindInternalOption(item);
+    } else if (item.dataType.ignoreCase('split-string')) {
+      return TextChipsView(
+        controller: item.tc!,
+        selectedChips: _storyPreparationModel!.characterNameList,
+      );
     } else if (item.dataType.ignoreCase('string')) {
       return AppTextField(
         controller: item.tc!,
@@ -181,7 +187,10 @@ class _StoryPreparationScreenState extends State<StoryPreparationScreen> {
       confirmCallback: () async {
         AppDialog.instance.dismissCurrentPopUp();
         await AppNavigator.instance.push(
-            StoryGeneratorScreenRoute(storyBreakdownModel: storyBreakdown));
+          StoryGeneratorScreenRoute(
+            storyBreakdownModel: storyBreakdown,
+          ),
+        );
         AppNavigator.instance.pop(true);
       },
     );

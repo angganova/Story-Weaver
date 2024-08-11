@@ -3,9 +3,12 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:story_weaver/app/components/app_bar/default_app_bar.dart';
+import 'package:story_weaver/app/components/button/icon_button.dart';
 import 'package:story_weaver/data/model/story/story_breakdown_model.dart';
 import 'package:story_weaver/system/extension/string_extension.dart';
 import 'package:story_weaver/system/global_style.dart';
+import 'package:story_weaver/system/routes/routes_map.dart';
+import 'package:story_weaver/system/service/navigator.dart';
 import 'package:story_weaver/system/variables/durations.dart';
 
 class ChapterPreviewScreen extends StatefulWidget {
@@ -26,8 +29,24 @@ class _ChapterPreviewScreenState extends State<ChapterPreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarHeader.basic(
+      appBar: AppBarHeader.defaultHeader(
         title: 'Chapter ${widget.chapterBreakdown.number}',
+        actions: [
+          AppIconButton.transparent(
+            icon: Icons.format_size_rounded,
+            onTap: () async {
+              await AppNavigator.instance.push(const FontScaleScreenRoute());
+              setState(() {});
+            },
+          ),
+          AppIconButton.transparent(
+            icon: Icons.font_download_rounded,
+            onTap: () async {
+              await AppNavigator.instance.push(const FontScreenRoute());
+              setState(() {});
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: AnimatedSwitcher(
@@ -51,10 +70,7 @@ class _ChapterPreviewScreenState extends State<ChapterPreviewScreen> {
     }
 
     return DefaultTextStyle(
-      style: AppTextStyle.instance.paragraph.copyWith(
-        fontFamily: 'Agne',
-        height: 2,
-      ),
+      style: AppTextStyle.instance.storyGenerator,
       child: AnimatedTextKit(
         pause: kDuration100,
         isRepeatingAnimation: false,

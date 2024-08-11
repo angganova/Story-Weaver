@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         setState(() => _showAppName = false);
         Future.delayed(kDuration500,
-            () => AppNavigator.instance.push(const HomeScreenRoute()));
+            () => AppNavigator.instance.replace(const HomeScreenRoute()));
       }
     });
     super.initState();

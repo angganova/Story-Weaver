@@ -65,14 +65,19 @@ class _StoryDetailScreenState extends State<StoryDetailScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TabBar(
-          controller: _tabController,
-          onTap: (int index) {
-            setState(() => _selectedTabIndex = index);
-          },
-          tabs: tabList,
-          labelStyle: AppTextStyle.instance.paragraph,
-          labelPadding: AppSpacer.instance.edgeInsets.x.xxs,
+        Padding(
+          padding: AppSpacer.instance.edgeInsets.x.sm,
+          child: TabBar(
+            tabAlignment: TabAlignment.start,
+            controller: _tabController,
+            isScrollable: true,
+            onTap: (int index) {
+              setState(() => _selectedTabIndex = index);
+            },
+            tabs: tabList,
+            labelStyle: AppTextStyle.instance.paragraph,
+            labelPadding: AppSpacer.instance.edgeInsets.right.sm,
+          ),
         ),
         Expanded(child: _tabContentView),
       ],
@@ -121,9 +126,10 @@ class _StoryDetailScreenState extends State<StoryDetailScreen>
     } else if (item is ChapterBreakdown) {
       title = item.title ?? '';
       subtitle = item.summary ?? '';
-      onTap = () {
-        AppNavigator.instance
+      onTap = () async {
+        await AppNavigator.instance
             .push(ChapterPreviewScreenRoute(chapterBreakdown: item));
+        setState(() {});
       };
     }
 

@@ -77,7 +77,7 @@ class _SettingScreenState extends State<SettingScreen> {
         AppListTile.titleSubtitleTrailing(
           title: 'Font Scale',
           subtitle: 'Font scale applicable to the app',
-          trailing: const Icon(Icons.font_download_rounded),
+          trailing: const Icon(Icons.format_size_rounded),
           onTap: () async {
             await AppNavigator.instance.push(const FontScaleScreenRoute());
             setState(() {});

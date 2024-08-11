@@ -17,6 +17,7 @@ enum InputType {
 
 class StoryPreparationModel {
   List<StoryPreparationDetail>? storyPreparationList;
+  List<String> characterNameList = [];
 
   StoryPreparationModel({this.storyPreparationList});
 
@@ -26,6 +27,8 @@ class StoryPreparationModel {
 
     for (var item in result.storyPreparationList!) {
       if (item.dataType.ignoreCase('string')) {
+        item.tc = TextEditingController();
+      } else if (item.dataType.ignoreCase('split-string')) {
         item.tc = TextEditingController();
       }
     }
@@ -42,11 +45,9 @@ class StoryPreparationModel {
 
     final StoryBreakdownModel result = StoryBreakdownModel();
     StoryMetadata storyMetadata = StoryMetadata();
-    CharacterBreakdown characterBreakdown = CharacterBreakdown();
 
     storyMetadata.title = storyPreparationList?[0].value;
     storyMetadata.goal = storyPreparationList?[1].value;
-    characterBreakdown.name = storyPreparationList?[2].value;
 
     storyMetadata.targetAudience = storyPreparationList?[3]
         .internalOptionList
@@ -75,7 +76,9 @@ class StoryPreparationModel {
         .toList();
 
     result.storyMetadata = storyMetadata;
-    result.characterBreakdown = [characterBreakdown];
+    result.characterBreakdown = [
+      ...characterNameList.map((item) => CharacterBreakdown(name: item)),
+    ];
 
     return result;
   }
@@ -164,7 +167,7 @@ const _storyPreparationData = {
       "description":
           "Who are the main characters in the story? What are their personalities, motivations, and goals? Developing strong characters is essential for a compelling story.\nInput multiple characters can separated by coma (,).",
       "value": "",
-      "dataType": "string"
+      "dataType": "split-string",
     },
     {
       "title": "The Audience",

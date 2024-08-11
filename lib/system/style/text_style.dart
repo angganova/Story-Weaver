@@ -136,6 +136,11 @@ class AppTextStyle {
   TextStyle get b2 => defaultNormalTextStyle.copyWith(
       fontSize: 12 * currentTextScaleFactor, height: 1.5);
 
+  TextStyle get storyGenerator => defaultNormalTextStyle.copyWith(
+        fontSize: 14 * currentTextScaleFactor,
+        height: 2,
+      );
+
   TextStyle get paragraph =>
       defaultNormalTextStyle.copyWith(fontSize: 14 * currentTextScaleFactor);
 

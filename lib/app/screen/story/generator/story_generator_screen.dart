@@ -2,10 +2,8 @@
 
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:story_weaver/app/components/app_bar/default_app_bar.dart';
 import 'package:story_weaver/app/components/button/elevated_button.dart';
 import 'package:story_weaver/app/components/button/icon_button.dart';
@@ -55,7 +53,7 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
             'Story Generator - Chapter ${widget.storyBreakdownModel.nextChapter}',
         actions: [
           AppIconButton.transparent(
-            icon: Icons.psychology_alt_outlined,
+            icon: Icons.wb_incandescent_rounded,
             onTap: () => AppNavigator.instance.push(const GeminiScreenRoute()),
           )
         ],
@@ -85,10 +83,7 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
     }
 
     return DefaultTextStyle(
-      style: AppTextStyle.instance.paragraph.copyWith(
-        fontFamily: 'Agne',
-        height: 2,
-      ),
+      style: AppTextStyle.instance.storyGenerator,
       child: AnimatedTextKit(
         pause: kDuration100,
         isRepeatingAnimation: false,
@@ -121,20 +116,6 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
           ),
         ),
         AppSpacer.instance.vWs,
-        if (!_isGenerateError)
-          Expanded(
-            child: AppElevatedButton(
-              onPressed: () {
-                Clipboard.setData(ClipboardData(text: _storyText));
-                AppToast.sInformation(
-                    context: context, text: 'Copied to clipboard');
-              },
-              text: 'Copy',
-              wrapContent: true,
-            ),
-          )
-        else
-          const Spacer(),
         AppSpacer.instance.vWs,
         if (!_isGenerateError)
           Expanded(

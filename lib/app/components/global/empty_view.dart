@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../../../system/global_style.dart';
 import '../../../system/global_variable.dart';
 import '../button/elevated_button.dart';
@@ -51,10 +49,7 @@ class AppEmptyView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const Spacer(),
-            GestureDetector(
-              onTap: _onTapImage,
-              child: _imageView,
-            ),
+            _imageView,
             AppSpacer.instance.vHmd,
             AppText.sectionHeader(
               title ?? '',
@@ -103,12 +98,6 @@ class AppEmptyView extends StatelessWidget {
       );
     } else {
       return Container();
-    }
-  }
-
-  void _onTapImage() {
-    if (kDebugMode) {
-      // AppRouter.instance.push(const LocalBugTrackerView());
     }
   }
 }
