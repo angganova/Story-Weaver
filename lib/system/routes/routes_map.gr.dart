@@ -135,6 +135,15 @@ class _$AppRouter extends RootStackRouter {
         barrierDismissible: false,
       );
     },
+    FontsScreenRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+        routeData: routeData,
+        child: const FontsScreen(),
+        transitionsBuilder: TransitionsBuilders.fadeIn,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
   };
 
   @override
@@ -186,6 +195,11 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           GeminiScreenRoute.name,
           path: '/gemini-screen',
+          guards: [authGuard],
+        ),
+        RouteConfig(
+          FontsScreenRoute.name,
+          path: '/fonts-screen',
           guards: [authGuard],
         ),
       ];
@@ -438,4 +452,16 @@ class GeminiScreenRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'GeminiScreenRoute';
+}
+
+/// generated route for
+/// [FontsScreen]
+class FontsScreenRoute extends PageRouteInfo<void> {
+  const FontsScreenRoute()
+      : super(
+          FontsScreenRoute.name,
+          path: '/fonts-screen',
+        );
+
+  static const String name = 'FontsScreenRoute';
 }

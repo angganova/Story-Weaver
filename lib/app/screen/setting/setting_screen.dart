@@ -57,11 +57,20 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget get _contentView {
     return ListView(
       children: [
-        AppListTile.titleSubtitle(
+        AppListTile.titleSubtitleTrailing(
           title: 'Gemini AI',
           subtitle: 'List of all Gemini AI Models',
+          trailing: const Icon(Icons.wb_incandescent_rounded),
           onTap: () {
             AppNavigator.instance.push(const GeminiScreenRoute());
+          },
+        ),
+        AppListTile.titleSubtitleTrailing(
+          title: 'Fonts',
+          subtitle: 'List of all fonts',
+          trailing: const Icon(Icons.font_download_rounded),
+          onTap: () {
+            AppNavigator.instance.push(const FontsScreenRoute());
           },
         ),
       ],

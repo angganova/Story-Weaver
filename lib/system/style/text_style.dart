@@ -1,7 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:story_weaver/system/global_extension.dart';
+import 'package:story_weaver/system/service/local_storage.dart';
 import 'package:story_weaver/system/utils/data_utils.dart';
 
 /// Main Text Style Class
@@ -23,11 +23,38 @@ class AppTextStyle {
     GoogleFonts.aBeeZee(),
     GoogleFonts.merriweather(),
     GoogleFonts.lora(),
+    GoogleFonts.caveat(),
     GoogleFonts.spaceGrotesk(),
+    GoogleFonts.dancingScript(),
+    GoogleFonts.signikaNegative(),
     GoogleFonts.mPlusRounded1c(),
+    GoogleFonts.indieFlower(),
     GoogleFonts.ubuntu(),
+    GoogleFonts.playfairDisplay(),
     GoogleFonts.oswald(),
+    GoogleFonts.exo2(),
+    GoogleFonts.lobster(),
+    GoogleFonts.greyQo(),
+    GoogleFonts.cinzel(),
+    GoogleFonts.greatVibes(),
+    GoogleFonts.raleway(),
+    GoogleFonts.ptSerif(),
+    GoogleFonts.bebasNeue(),
+    GoogleFonts.montserrat(),
+    GoogleFonts.robotoMono(),
+    GoogleFonts.pacifico(),
   ];
+
+  TextStyle get storageTextStyle {
+    String fontName = AppLocalStorage.instance.getTextStyleName;
+    List<TextStyle> selectedTextStyleList = availableTextStyle
+        .where((item) => item.fontFamily.ignoreCaseIgnoreSpace(fontName))
+        .toList();
+    if (selectedTextStyleList.length.isMoreThanZero) {
+      currentTextStyle = selectedTextStyleList.first;
+    }
+    return currentTextStyle;
+  }
 
   TextStyle currentTextStyle = GoogleFonts.aBeeZee();
 

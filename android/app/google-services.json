@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1058128782406",
+    "project_id": "story-weaver-2024",
+    "storage_bucket": "story-weaver-2024.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058128782406:android:a9290675afbbf9ad3e1647",
+        "android_client_info": {
+          "package_name": "com.angganova.story.weaver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuJhLvgV_lYlvplOBJk28OxOwOIivVJCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

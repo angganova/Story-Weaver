@@ -127,27 +127,30 @@ class AppListTile extends StatefulWidget {
     );
   }
 
-  factory AppListTile.titleAmount({
+  factory AppListTile.titleSubtitleTrailing({
     required String title,
-    required num amount,
+    required String subtitle,
+    required Widget trailing,
     EdgeInsets? padding,
     Color? titleColor,
+    Color? subtitleColor,
     VoidCallback? onTap,
+    bool? withDivider,
   }) {
     return AppListTile(
       padding: padding,
-      title: AppText.label(
+      title: AppText.sectionHeader(
         title,
         color: titleColor ?? AppColors.textPrimary,
       ),
-      subtitle: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          AppText.paragraph2('Rp'),
-          AppText.h2(amount.formatThousand())
-        ],
+      subtitle: AppText.paragraph(
+        subtitle,
+        color: subtitleColor ?? AppColors.textBlack,
+        maxLines: 5,
       ),
       onTap: onTap,
+      withDivider: withDivider ?? false,
+      trailing: trailing,
     );
   }
 

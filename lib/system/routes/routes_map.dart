@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:story_weaver/app/screen/home/home_screen.dart';
+import 'package:story_weaver/app/screen/setting/font_screen.dart';
 import 'package:story_weaver/app/screen/setting/gemini_screen.dart';
 import 'package:story_weaver/app/screen/story/preparation/story_option_picker_screen.dart';
 import 'package:story_weaver/app/screen/story/preparation/story_preparation_screen.dart';
@@ -73,6 +74,11 @@ part 'routes_map.gr.dart';
     ),
     CustomRoute<dynamic>(
       page: GeminiScreen,
+      transitionsBuilder: TransitionsBuilders.fadeIn,
+      guards: <Type>[AuthGuard],
+    ),
+    CustomRoute<dynamic>(
+      page: FontsScreen,
       transitionsBuilder: TransitionsBuilders.fadeIn,
       guards: <Type>[AuthGuard],
     ),

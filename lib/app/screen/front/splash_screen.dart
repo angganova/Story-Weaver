@@ -5,11 +5,11 @@ import 'package:story_weaver/app/components/button/icon_button.dart';
 import 'package:story_weaver/app/components/global/fs_loading_view.dart';
 import 'package:story_weaver/app/components/text/basic_text.dart';
 import 'package:story_weaver/system/extension/num_extension.dart';
+import 'package:story_weaver/system/popup/dialog.dart';
 import 'package:story_weaver/system/service/local_storage.dart';
 import 'package:story_weaver/system/style/colors.dart';
 import 'package:story_weaver/system/style/dimensions.dart';
 import 'package:story_weaver/system/style/media_query/media_query.dart';
-import 'package:story_weaver/system/style/text_style.dart';
 
 import '../../../system/global_variable.dart';
 import '../../../system/routes/routes_map.dart';
@@ -56,7 +56,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(kDuration2s, () {
-      if (AppLocalStorage.instance.isFirstLaunch) {
+      if (!AppLocalStorage.instance.isEnableApp) {
+        AppDialog.instance.sInformation(
+          context: context,
+          title: 'Deactivate Application',
+          detail: 'This application is deactivated, '
+              'please contact the developer to activate it.',
+        );
+        return;
+      } else if (AppLocalStorage.instance.isFirstLaunch) {
         setState(() => _startIntro = true);
       } else {
         AppNavigator.instance.push(const HomeScreenRoute());
@@ -107,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     : Icons.arrow_forward_ios_rounded,
                 onTap: () {
                   if (_currentPage.isEqual(_introList.length - 1)) {
-                    // AppLocalStorage.instance.saveFirstLaunch(false);
+                    AppLocalStorage.instance.saveFirstLaunch(false);
                     AppNavigator.instance.push(const HomeScreenRoute());
                   } else {
                     _changePage(_currentPage + 1);
