@@ -4,9 +4,11 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:story_weaver/app/components/app_bar/default_app_bar.dart';
-import 'package:story_weaver/app/components/button/elevated_button.dart';
 import 'package:story_weaver/app/components/button/icon_button.dart';
+import 'package:story_weaver/app/components/global/watermark_view.dart';
 import 'package:story_weaver/app/components/loading/basic_loading.dart';
 import 'package:story_weaver/data/model/story/story_breakdown_model.dart';
 import 'package:story_weaver/system/extension/list_extension.dart';
@@ -21,6 +23,8 @@ import 'package:story_weaver/system/service/internal/story_file_management.dart'
 import 'package:story_weaver/system/service/navigator.dart';
 import 'package:story_weaver/system/variables/durations.dart';
 
+import '../../../../system/service/share_service.dart';
+
 class StoryGeneratorScreen extends StatefulWidget {
   const StoryGeneratorScreen(
       {super.key, required this.storyBreakdownModel, this.storyHighlight});
@@ -33,6 +37,9 @@ class StoryGeneratorScreen extends StatefulWidget {
 }
 
 class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
+  final GlobalKey<ExpandableFabState> _fabKey = GlobalKey<ExpandableFabState>();
+  final ScreenshotController _ssController = ScreenshotController();
+
   bool _isLoading = true;
   bool _isGenerateError = false;
   bool _isShowAction = false;
@@ -49,15 +56,26 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarHeader.defaultHeader(
-        title:
-            'Story Generator - Chapter ${widget.storyBreakdownModel.nextChapter}',
+        title: 'Story Generator',
         actions: [
           AppIconButton.transparent(
-            icon: Icons.wb_incandescent_rounded,
-            onTap: () => AppNavigator.instance.push(const GeminiScreenRoute()),
-          )
+            icon: Icons.format_size_rounded,
+            onTap: () async {
+              await AppNavigator.instance.push(const FontScaleScreenRoute());
+              setState(() {});
+            },
+          ),
+          AppIconButton.transparent(
+            icon: Icons.font_download_rounded,
+            onTap: () async {
+              await AppNavigator.instance.push(const FontScreenRoute());
+              setState(() {});
+            },
+          ),
         ],
       ),
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: _actionView,
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: kDuration200,
@@ -68,11 +86,15 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
   }
 
   Widget get _mainView {
-    return ListView(
-      padding: AppSpacer.instance.edgeInsets.all.sm,
-      children: <Widget>[
-        _contentView,
-        _actionView,
+    return Column(
+      children: [
+        ListView(
+          padding: AppSpacer.instance.edgeInsets.all.sm,
+          children: <Widget>[
+            _contentView,
+            if (_isShowAction) AppSpacer.instance.vHmd,
+          ],
+        ),
       ],
     );
   }
@@ -82,51 +104,73 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
       return Container();
     }
 
-    return DefaultTextStyle(
-      style: AppTextStyle.instance.storyGenerator,
-      child: AnimatedTextKit(
-        pause: kDuration100,
-        isRepeatingAnimation: false,
-        displayFullTextOnTap: true,
-        onTap: () {
-          setState(() => _isShowAction = true);
-        },
-        onFinished: () {
-          setState(() => _isShowAction = true);
-        },
-        animatedTexts: [
-          TypewriterAnimatedText(_storyText),
-        ],
+    return Screenshot(
+      controller: _ssController,
+      child: AppWaterMarkView(
+        child: DefaultTextStyle(
+          style: AppTextStyle.instance.storyGenerator,
+          child: AnimatedTextKit(
+            pause: kDuration100,
+            isRepeatingAnimation: false,
+            displayFullTextOnTap: true,
+            onTap: () {
+              setState(() => _isShowAction = true);
+            },
+            onFinished: () {
+              setState(() => _isShowAction = true);
+            },
+            animatedTexts: [
+              TypewriterAnimatedText(_storyText),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  Widget get _actionView {
+  Widget? get _actionView {
     if (!_isShowAction) {
-      return Container();
+      return null;
     }
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+
+    return ExpandableFab(
+      key: _fabKey,
+      openButtonBuilder: RotateFloatingActionButtonBuilder(
+        child: const Icon(Icons.menu),
+        fabSize: ExpandableFabSize.regular,
+        foregroundColor: AppColors.black,
+        backgroundColor: AppColors.white,
+        shape: const CircleBorder(),
+      ),
+      closeButtonBuilder: FloatingActionButtonBuilder(
+        size: 56,
+        builder: (BuildContext context, void Function()? onPressed,
+            Animation<double> progress) {
+          return AppIconButton(
+            onTap: onPressed,
+            icon: Icons.close,
+          );
+        },
+      ),
+      overlayStyle: ExpandableFabOverlayStyle(
+        color: Colors.black.withOpacity(0.5),
+        blur: 5,
+      ),
       children: [
-        Expanded(
-          child: AppElevatedButton(
-            onPressed: _generateStory,
-            text: 'Regenerate',
-            wrapContent: true,
-          ),
-        ),
-        AppSpacer.instance.vWs,
-        AppSpacer.instance.vWs,
         if (!_isGenerateError)
-          Expanded(
-            child: AppElevatedButton(
-              onPressed: _ctaSave,
-              text: 'Save',
-              wrapContent: true,
-            ),
-          )
-        else
-          const Spacer(),
+          AppIconButton(
+            icon: Icons.save,
+            onTap: _ctaSave,
+          ),
+        AppIconButton(
+          icon: Icons.refresh,
+          onTap: _generateStory,
+        ),
+        if (!_isGenerateError)
+          AppIconButton(
+            icon: Icons.share,
+            onTap: _ctaShare,
+          ),
       ],
     );
   }
@@ -174,6 +218,10 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
         detail: 'Save story failed, please try again',
       );
     }
+  }
+
+  Future<void> _ctaShare() async {
+    ShareService().shareScreenshot(context: context, controller: _ssController);
   }
 
   List<String> validateStoryBreakdown(StoryBreakdownModel storyBreakdownModel) {

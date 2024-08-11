@@ -77,17 +77,19 @@ dependencies:
   # A flutter library to show images from the internet and keep them in the cache directory.
   cached_network_image: ^3.3.1
 
+  # Simple, fast generation of RFC4122 and RFC9562 UUIDs.
   uuid: ^3.0.6
-
-  # A Flutter plugin to share content from your Flutter app via the platform's share dialog.
-  share_plus: ^6.0.1
 
   # Allows us to have a debug console and an abstraction to help log at multiple levels
   logger: ^1.0.0
 
-  visibility_detector: ^0.4.0+2
+  # Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations exported as json
   lottie: ^3.0.0
+  
+  # This Flutter plugin provides an API for querying information about an application package.
   package_info_plus: ^3.0.2
+  
+  # A Flutter package to use fonts from fonts.google.com.
   google_fonts: ^4.0.0
 
   # All firebase libraries
@@ -95,6 +97,14 @@ dependencies:
   firebase_analytics: ^10.5.1
   firebase_remote_config: ^4.2.7
 
+  # A Flutter plugin to share content from your Flutter app via the platform's share dialog.
+  share_plus: ^6.0.1
+
+  # Flutter_expandable_fab is a speed dial FAB 
+  flutter_expandable_fab: ^2.2.0
+
+  # A simple package to capture widgets as Images. 
+  screenshot: ^3.0.0
 
 dev_dependencies:
   flutter_test:

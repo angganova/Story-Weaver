@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (!AppLocalStorage.instance.isEnableApp) {
         AppDialog.instance.sInformation(
           context: context,
-          title: 'Deactivate Application',
+          title: 'Deactivated Application',
           detail: 'This application is deactivated, '
               'please contact the developer to activate it.',
         );

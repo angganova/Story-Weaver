@@ -2,13 +2,16 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:story_weaver/data/model/internal/file_content_model.dart';
+import 'package:story_weaver/system/utils/data_utils.dart';
 
 import '../popup/dialog.dart';
 import 'bug_tracker.dart';
@@ -275,6 +278,25 @@ class FileService {
   }
 
   /// External Dir End
+
+  Future<XFile?> createXFileImage(Uint8List? image, {String? fileName}) async {
+    if (image == null) {
+      return null;
+    }
+
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final finalFileName =
+          fileName ?? 'image-${DataUtils.getCurrentUnixTimestamp}.png';
+      final File imagePath =
+          await File('${directory.path}/$finalFileName').create();
+      await imagePath.writeAsBytes(image);
+      return XFile(imagePath.path);
+    } on Exception catch (e, s) {
+      AppBugTracker.instance.captureException(exception: e, stackTrace: s);
+      return null;
+    }
+  }
 
   String? getFileName(File file) {
     if (file.path.isEmpty) {
