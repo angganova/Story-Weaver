@@ -135,10 +135,19 @@ class _$AppRouter extends RootStackRouter {
         barrierDismissible: false,
       );
     },
-    FontsScreenRoute.name: (routeData) {
+    FontScreenRoute.name: (routeData) {
       return CustomPage<dynamic>(
         routeData: routeData,
-        child: const FontsScreen(),
+        child: const FontScreen(),
+        transitionsBuilder: TransitionsBuilders.fadeIn,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
+    FontScaleScreenRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+        routeData: routeData,
+        child: const FontScaleScreen(),
         transitionsBuilder: TransitionsBuilders.fadeIn,
         opaque: true,
         barrierDismissible: false,
@@ -198,8 +207,13 @@ class _$AppRouter extends RootStackRouter {
           guards: [authGuard],
         ),
         RouteConfig(
-          FontsScreenRoute.name,
-          path: '/fonts-screen',
+          FontScreenRoute.name,
+          path: '/font-screen',
+          guards: [authGuard],
+        ),
+        RouteConfig(
+          FontScaleScreenRoute.name,
+          path: '/font-scale-screen',
           guards: [authGuard],
         ),
       ];
@@ -455,13 +469,25 @@ class GeminiScreenRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [FontsScreen]
-class FontsScreenRoute extends PageRouteInfo<void> {
-  const FontsScreenRoute()
+/// [FontScreen]
+class FontScreenRoute extends PageRouteInfo<void> {
+  const FontScreenRoute()
       : super(
-          FontsScreenRoute.name,
-          path: '/fonts-screen',
+          FontScreenRoute.name,
+          path: '/font-screen',
         );
 
-  static const String name = 'FontsScreenRoute';
+  static const String name = 'FontScreenRoute';
+}
+
+/// generated route for
+/// [FontScaleScreen]
+class FontScaleScreenRoute extends PageRouteInfo<void> {
+  const FontScaleScreenRoute()
+      : super(
+          FontScaleScreenRoute.name,
+          path: '/font-scale-screen',
+        );
+
+  static const String name = 'FontScaleScreenRoute';
 }

@@ -52,10 +52,13 @@ class _SplashScreenState extends State<SplashScreen> {
   ];
   int _currentPage = 0;
   bool _startIntro = false;
+  bool _showAppName = false;
 
   @override
   void initState() {
-    Future.delayed(kDuration2s, () {
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => setState(() => _showAppName = true));
+    Future.delayed(kDuration1500, () {
       if (!AppLocalStorage.instance.isEnableApp) {
         AppDialog.instance.sInformation(
           context: context,
@@ -65,9 +68,12 @@ class _SplashScreenState extends State<SplashScreen> {
         );
         return;
       } else if (AppLocalStorage.instance.isFirstLaunch) {
-        setState(() => _startIntro = true);
+        setState(() => _showAppName = false);
+        Future.delayed(kDuration500, () => setState(() => _startIntro = true));
       } else {
-        AppNavigator.instance.push(const HomeScreenRoute());
+        setState(() => _showAppName = false);
+        Future.delayed(kDuration500,
+            () => AppNavigator.instance.push(const HomeScreenRoute()));
       }
     });
     super.initState();
@@ -75,61 +81,85 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _mainView,
-          if (_startIntro)
-            Positioned.fill(
-              child: AnimatedSwitcher(
-                duration: kDuration500,
-                child: _startIntro ? _introView : Container(),
-              ),
+    return Scaffold(body: _mainView);
+  }
+
+  Widget get _mainView {
+    return Stack(
+      children: [
+        const FullScreenLoadingView(),
+        Center(
+            child: AnimatedOpacity(
+          opacity: _showAppName ? 1 : 0,
+          duration: kDuration400,
+          child: _appNameView,
+        )),
+        if (_startIntro)
+          Positioned.fill(
+            child: AnimatedSwitcher(
+              duration: kDuration500,
+              child: _startIntro ? _introView : Container(),
             ),
-          if (_startIntro)
-            Positioned(
-              left: AppSpacer.instance.sm,
-              bottom: AppSpacer.instance.sm,
-              child: AnimatedOpacity(
-                opacity: _currentPage.isMoreThanZero ? 1 : 0,
-                duration: kDuration200,
-                child: AppIconButton(
-                  bgColor: AppColors.white.withOpacity(0.5),
-                  icon: Icons.arrow_back_ios_rounded,
-                  onTap: () {
-                    if (_currentPage.isMoreThanZero) {
-                      _changePage(_currentPage - 1);
-                    }
-                  },
-                ),
-              ),
-            ),
-          if (_startIntro)
-            Positioned(
-              right: AppSpacer.instance.sm,
-              bottom: AppSpacer.instance.sm,
+          ),
+        if (_startIntro)
+          Positioned(
+            left: AppSpacer.instance.sm,
+            bottom: AppSpacer.instance.sm,
+            child: AnimatedOpacity(
+              opacity: _currentPage.isMoreThanZero ? 1 : 0,
+              duration: kDuration200,
               child: AppIconButton(
                 bgColor: AppColors.white.withOpacity(0.5),
-                icon: _currentPage.isEqual(_introList.length - 1)
-                    ? Icons.double_arrow_outlined
-                    : Icons.arrow_forward_ios_rounded,
+                icon: Icons.arrow_back_ios_rounded,
                 onTap: () {
-                  if (_currentPage.isEqual(_introList.length - 1)) {
-                    AppLocalStorage.instance.saveFirstLaunch(false);
-                    AppNavigator.instance.push(const HomeScreenRoute());
-                  } else {
-                    _changePage(_currentPage + 1);
+                  if (_currentPage.isMoreThanZero) {
+                    _changePage(_currentPage - 1);
                   }
                 },
               ),
             ),
-        ],
-      ),
+          ),
+        if (_startIntro)
+          Positioned(
+            right: AppSpacer.instance.sm,
+            bottom: AppSpacer.instance.sm,
+            child: AppIconButton(
+              bgColor: AppColors.white.withOpacity(0.5),
+              icon: _currentPage.isEqual(_introList.length - 1)
+                  ? Icons.double_arrow_outlined
+                  : Icons.arrow_forward_ios_rounded,
+              onTap: () {
+                if (_currentPage.isEqual(_introList.length - 1)) {
+                  AppLocalStorage.instance.saveFirstLaunch(false);
+                  AppNavigator.instance.push(const HomeScreenRoute());
+                } else {
+                  _changePage(_currentPage + 1);
+                }
+              },
+            ),
+          ),
+      ],
     );
   }
 
-  Widget get _mainView {
-    return const FullScreenLoadingView();
+  Widget get _appNameView {
+    return DefaultTextStyle(
+      style: GoogleFonts.dancingScript().copyWith(
+        fontSize: 64,
+        fontWeight: FontWeight.bold,
+        color: AppColors.white,
+      ),
+      child: AnimatedTextKit(
+        pause: kDuration100,
+        isRepeatingAnimation: false,
+        animatedTexts: [
+          TyperAnimatedText(
+            'Story Weaver',
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget get _introView {
@@ -164,15 +194,18 @@ class _SplashScreenState extends State<SplashScreen> {
             AppText(
               title,
               textStyle: GoogleFonts.aBeeZee(
-                color: AppColors.textBlack,
+                color: AppColors.white,
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
+              color: AppColors.white,
             ),
             AppSpacer.instance.vHs,
             DefaultTextStyle(
-              style: GoogleFonts.aBeeZee()
-                  .copyWith(fontSize: 16, color: AppColors.textBlack),
+              style: GoogleFonts.aBeeZee().copyWith(
+                fontSize: 16,
+                color: AppColors.white,
+              ),
               child: AnimatedTextKit(
                 pause: kDuration100,
                 isRepeatingAnimation: false,

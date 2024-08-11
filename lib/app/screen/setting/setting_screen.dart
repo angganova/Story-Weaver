@@ -66,11 +66,21 @@ class _SettingScreenState extends State<SettingScreen> {
           },
         ),
         AppListTile.titleSubtitleTrailing(
-          title: 'Fonts',
-          subtitle: 'List of all fonts',
+          title: 'Font List',
+          subtitle: 'List of all font',
           trailing: const Icon(Icons.font_download_rounded),
-          onTap: () {
-            AppNavigator.instance.push(const FontsScreenRoute());
+          onTap: () async {
+            await AppNavigator.instance.push(const FontScreenRoute());
+            setState(() {});
+          },
+        ),
+        AppListTile.titleSubtitleTrailing(
+          title: 'Font Scale',
+          subtitle: 'Font scale applicable to the app',
+          trailing: const Icon(Icons.font_download_rounded),
+          onTap: () async {
+            await AppNavigator.instance.push(const FontScaleScreenRoute());
+            setState(() {});
           },
         ),
       ],

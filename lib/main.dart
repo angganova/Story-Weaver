@@ -13,7 +13,7 @@ Future<void> main() async {
     enableDebugging: true,
   );
   AppLocalStorage.instance.init();
-  AppTextStyle.instance.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  AppTextStyle.instance.init();
   runApp(const AppView());
 }

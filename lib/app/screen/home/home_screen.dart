@@ -43,8 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           AppIconButton.transparent(
             icon: Icons.settings,
-            onTap: () {
-              AppNavigator.instance.push(const SettingScreenRoute());
+            onTap: () async {
+              await AppNavigator.instance.push(const SettingScreenRoute());
+              setState(() {});
             },
           ),
         ],

@@ -11,13 +11,14 @@ class AppLocalStorage {
   static final AppLocalStorage instance = AppLocalStorage._();
 
   /// System related key
-  final String _enableAppId = '4172y4ndxkjcfkje84y8r42';
-  final String _uuidId = '49f2f6256d5479c8201966eeccac2fc0';
-  final String _firstLaunchId = '0d7688aacbf97332c7fd9647d3fdd14e';
-  final String _languageId = '87891c2bd544694b276574e649c97bf7';
-  final String _appLastVersionId = '8a35ad98fee10185fb5d8c757cbaceac';
-  final String _geminiModelId = '8a35ad98fee101afda';
-  final String _textStyleId = '8a35ad98fee101af23y4nsada';
+  final String _enableAppId = '01f8e553f60a0cf2be2a654bcca59cda';
+  final String _uuidId = '4eedfa782ec1432b0b039b8a0a9d4b22';
+  final String _firstLaunchId = '7228995e1442c2a48d78d240a9f8ab7b';
+  final String _languageId = 'ccdef14a56e5fae667d0eb66eb137a74';
+  final String _appLastVersionId = '87fbb8ae445c4f62e7bc58183a92facd';
+  final String _geminiModelId = 'abff7875888bfd171454e161222fd2b0';
+  final String _textStyleId = 'f07cd095c593d6d865d58945eaafc6c3';
+  final String _textScaleId = '755c330071fd0dc81ecbfb4d6ac71bf8';
 
   late SharedPreferences _localStorage;
 
@@ -32,6 +33,10 @@ class AppLocalStorage {
   void saveTextStyleName(String style) =>
       _localStorage.setString(_textStyleId, style);
   String get getTextStyleName => _localStorage.getString(_textStyleId) ?? 'id';
+
+  void saveTextScale(double size) =>
+      _localStorage.setDouble(_textScaleId, size);
+  double get getTextScale => _localStorage.getDouble(_textScaleId) ?? 1;
 
   Future<bool> saveFirstLaunch(bool isFirstLaunch) async =>
       _localStorage.setBool(_firstLaunchId, isFirstLaunch);

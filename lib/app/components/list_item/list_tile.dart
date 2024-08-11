@@ -1,8 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-
-import '../../../system/extension/num_extension.dart';
 import '../../../system/global_style.dart';
 import '../button/icon_button.dart';
 import '../text/basic_text.dart';

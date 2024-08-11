@@ -25,44 +25,6 @@ class AppEmptyView extends StatelessWidget {
     this.autoPopWhenOk = true,
   });
 
-  factory AppEmptyView.noTransaction({double? imageWidth}) {
-    return AppEmptyView(
-      imageSvg: 'assets/images/svg/no_transaction.svg',
-      title: 'Belum ada transaksi baru',
-      imageWidth: imageWidth ?? AppQuery.instance.screenWidthHalf,
-    );
-  }
-
-  factory AppEmptyView.emptySearch(String searchText, {double? imageWidth}) {
-    return AppEmptyView(
-      imageSvg: 'assets/images/svg/no_transaction.svg',
-      title: 'Pencarian untuk $searchText tidak ditemukan',
-      imageWidth: imageWidth ?? AppQuery.instance.screenWidthHalf,
-    );
-  }
-
-  factory AppEmptyView.noTransactionSummary({VoidCallback? retryCB}) {
-    return AppEmptyView(
-      imageSvg: 'assets/images/svg/no_transaction.svg',
-      title: 'Belum ada transaksi',
-      height: AppQuery.instance.responsiveHeight(50),
-      imageWidth: AppQuery.instance.responsiveWidth(40),
-      okCallback: retryCB,
-      autoPopWhenOk: false,
-    );
-  }
-
-  factory AppEmptyView.errorTransactionSummary({VoidCallback? retryCB}) {
-    return AppEmptyView(
-      imageSvg: 'assets/images/svg/no_transaction.svg',
-      title: 'Terjadi kesalahaan saat mengambil data, silahkan coba lagi',
-      height: AppQuery.instance.responsiveHeight(50),
-      imageWidth: AppQuery.instance.responsiveWidth(40),
-      okCallback: retryCB,
-      autoPopWhenOk: false,
-    );
-  }
-
   final double? width;
   final double? height;
   final String? imageUrl;

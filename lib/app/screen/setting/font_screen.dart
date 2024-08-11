@@ -6,14 +6,14 @@ import 'package:story_weaver/system/service/local_storage.dart';
 import '../../../system/global_style.dart';
 import '../../components/text/basic_text.dart';
 
-class FontsScreen extends StatefulWidget {
-  const FontsScreen({super.key});
+class FontScreen extends StatefulWidget {
+  const FontScreen({super.key});
 
   @override
-  State<FontsScreen> createState() => _FontsScreenState();
+  State<FontScreen> createState() => _FontScreenState();
 }
 
-class _FontsScreenState extends State<FontsScreen> {
+class _FontScreenState extends State<FontScreen> {
   TextStyle? _selectedTextStyle;
 
   @override
@@ -47,12 +47,16 @@ class _FontsScreenState extends State<FontsScreen> {
             title: AppText(
               item.fontFamily ?? '',
               color: AppColors.textPrimary,
-              textStyle: item.copyWith(fontSize: 16),
+              textStyle: item.copyWith(
+                fontSize: 16 * AppTextStyle.instance.currentTextScaleFactor,
+              ),
             ),
             subtitle: AppText(
               'The quick brown fox jumps over the lazy dog',
               color: AppColors.textBlack,
-              textStyle: item,
+              textStyle: item.copyWith(
+                fontSize: 14 * AppTextStyle.instance.currentTextScaleFactor,
+              ),
             ),
             onTap: () => _ctaSelectItem(item),
           ),
