@@ -4,9 +4,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:label="story_weaver"
+        android:label="Story Weaver"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

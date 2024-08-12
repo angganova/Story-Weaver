@@ -73,19 +73,15 @@ class _StoryDetailScreenState extends State<StoryDetailScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: AppSpacer.instance.edgeInsets.x.sm,
-          child: TabBar(
-            tabAlignment: TabAlignment.start,
-            controller: _tabController,
-            isScrollable: true,
-            onTap: (int index) {
-              _pageController!.jumpToPage(index);
-            },
-            tabs: tabList,
-            labelStyle: AppTextStyle.instance.paragraph,
-            labelPadding: AppSpacer.instance.edgeInsets.right.sm,
-          ),
+        TabBar(
+          tabAlignment: TabAlignment.start,
+          controller: _tabController,
+          isScrollable: true,
+          onTap: (int index) {
+            _pageController!.jumpToPage(index);
+          },
+          tabs: tabList,
+          labelStyle: AppTextStyle.instance.paragraph,
         ),
         Expanded(child: _tabContentView),
       ],

@@ -5,7 +5,6 @@ import 'package:story_weaver/app/components/button/icon_button.dart';
 import 'package:story_weaver/app/components/global/fs_loading_view.dart';
 import 'package:story_weaver/app/components/text/basic_text.dart';
 import 'package:story_weaver/system/extension/num_extension.dart';
-import 'package:story_weaver/system/popup/dialog.dart';
 import 'package:story_weaver/system/service/local_storage.dart';
 import 'package:story_weaver/system/style/colors.dart';
 import 'package:story_weaver/system/style/dimensions.dart';
@@ -59,15 +58,17 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsBinding.instance
         .addPostFrameCallback((_) => setState(() => _showAppName = true));
     Future.delayed(kDuration1500, () {
-      if (!AppLocalStorage.instance.isEnableApp) {
-        AppDialog.instance.sInformation(
-          context: context,
-          title: 'Deactivated Application',
-          detail: 'This application is deactivated, '
-              'please contact the developer to activate it.',
-        );
-        return;
-      } else if (AppLocalStorage.instance.isFirstLaunch) {
+      // if (!AppLocalStorage.instance.isEnableApp) {
+      //   AppDialog.instance.sInformation(
+      //     context: context,
+      //     title: 'Deactivated Application',
+      //     detail: 'This application is deactivated, '
+      //         'please contact the developer to activate it.',
+      //   );
+      //   return;
+      // }
+
+      if (AppLocalStorage.instance.isFirstLaunch) {
         setState(() => _showAppName = false);
         Future.delayed(kDuration500, () => setState(() => _startIntro = true));
       } else {
@@ -89,11 +90,12 @@ class _SplashScreenState extends State<SplashScreen> {
       children: [
         const FullScreenLoadingView(),
         Center(
-            child: AnimatedOpacity(
-          opacity: _showAppName ? 1 : 0,
-          duration: kDuration400,
-          child: _appNameView,
-        )),
+          child: AnimatedOpacity(
+            opacity: _showAppName ? 1 : 0,
+            duration: kDuration400,
+            child: _appNameView,
+          ),
+        ),
         if (_startIntro)
           Positioned.fill(
             child: AnimatedSwitcher(
@@ -143,12 +145,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Widget get _appNameView {
-    return Text(
-      'Story Weaver',
-      style: GoogleFonts.dancingScript().copyWith(
-        fontSize: 64,
-        fontWeight: FontWeight.bold,
+    return SizedBox(
+      width: AppQuery.instance.width,
+      child: AppText(
+        'Story Weaver',
         color: AppColors.white,
+        align: TextAlign.center,
+        textStyle: GoogleFonts.dancingScript().copyWith(
+          fontSize: 64,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -190,9 +196,11 @@ class _SplashScreenState extends State<SplashScreen> {
                 fontWeight: FontWeight.bold,
               ),
               color: AppColors.white,
+              align: TextAlign.center,
             ),
             AppSpacer.instance.vHs,
             DefaultTextStyle(
+              textAlign: TextAlign.center,
               style: GoogleFonts.aBeeZee().copyWith(
                 fontSize: 16,
                 color: AppColors.white,
@@ -202,7 +210,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 isRepeatingAnimation: false,
                 displayFullTextOnTap: true,
                 animatedTexts: [
-                  TypewriterAnimatedText(detail),
+                  TypewriterAnimatedText(
+                    detail,
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),

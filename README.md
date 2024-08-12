@@ -1,4 +1,4 @@
-# story_weaver
+# Story Weaver
 
 A new Flutter project.
 
