@@ -13,6 +13,7 @@ import 'package:story_weaver/system/global_style.dart';
 import 'package:story_weaver/system/routes/routes_map.dart';
 import 'package:story_weaver/system/service/navigator.dart';
 import 'package:story_weaver/system/variables/durations.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../../../system/service/share_service.dart';
 
@@ -33,7 +34,14 @@ class _ChapterPreviewScreenState extends State<ChapterPreviewScreen> {
 
   @override
   void initState() {
+    WakelockPlus.enable();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WakelockPlus.disable();
+    super.dispose();
   }
 
   @override
@@ -71,10 +79,9 @@ class _ChapterPreviewScreenState extends State<ChapterPreviewScreen> {
 
   Widget get _mainView {
     return ListView(
-      padding: AppSpacer.instance.edgeInsets.all.sm,
       children: [
         _contentView,
-        if (_isShowAction) AppSpacer.instance.vHmd,
+        if (_isShowAction) AppSpacer.instance.vHxxl,
       ],
     );
   }
@@ -86,22 +93,28 @@ class _ChapterPreviewScreenState extends State<ChapterPreviewScreen> {
 
     return Screenshot(
       controller: _ssController,
-      child: AppWaterMarkView(
-        child: DefaultTextStyle(
-          style: AppTextStyle.instance.storyGenerator,
-          child: AnimatedTextKit(
-            pause: kDuration100,
-            isRepeatingAnimation: false,
-            displayFullTextOnTap: true,
-            onTap: () {
-              setState(() => _isShowAction = true);
-            },
-            onFinished: () {
-              setState(() => _isShowAction = true);
-            },
-            animatedTexts: [
-              TypewriterAnimatedText(widget.chapterBreakdown.chapterStory!),
-            ],
+      child: Container(
+        padding: AppSpacer.instance.edgeInsets.all.sm,
+        color: AppColors.white,
+        child: AppWaterMarkView(
+          child: DefaultTextStyle(
+            style: AppTextStyle.instance.storyGenerator,
+            child: AnimatedTextKit(
+              pause: kDuration100,
+              isRepeatingAnimation: false,
+              displayFullTextOnTap: true,
+              onTap: () {
+                setState(() => _isShowAction = true);
+              },
+              onFinished: () {
+                WakelockPlus.disable();
+                setState(() => _isShowAction = true);
+              },
+              animatedTexts: [
+                TypewriterAnimatedText(
+                    widget.chapterBreakdown.chapterStory!.trim()),
+              ],
+            ),
           ),
         ),
       ),

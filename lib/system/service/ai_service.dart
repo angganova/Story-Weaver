@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:story_weaver/app/screen/home/home_vm.dart';
@@ -89,7 +88,6 @@ class AiService {
 
     String? response;
     response = await _basicQuery(query);
-    log('XXX generateLatestStoryBreakdown response \n $response');
     return response;
   }
 
@@ -105,7 +103,6 @@ class AiService {
         same request I mentioned before as JSON.
         ''',
     );
-    log('XXX regenerateErrorStoryBreakdown newResponse \n $newResponse');
     return newResponse;
   }
 
@@ -124,10 +121,6 @@ class AiService {
     String query,
   ) async {
     await init();
-
-    final int? queryToken = await AI.countTokens(query);
-    log('XXX _basicQuery queryToken $queryToken');
-
     final response = await AI.text(
       query,
       modelName: AppLocalStorage.instance.geminiModelId,
@@ -155,9 +148,6 @@ class AiService {
       throw AiGlobalException(
           'Failed to generate output, please try regenerate again.');
     } else {
-      final int? responseToken = await AI.countTokens(response.output!);
-      log('XXX _basicQuery responseToken $responseToken');
-      log('XXX _basicQuery output ${response.output}');
       return response.output!
           .replaceAll('```json', '')
           .replaceAll('```JSON', '')

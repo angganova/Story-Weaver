@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:story_weaver/app/components/app_bar/default_app_bar.dart';
 import 'package:story_weaver/app/components/list_item/list_tile.dart';
@@ -32,6 +30,7 @@ class _StoryDetailScreenState extends State<StoryDetailScreen>
   ];
 
   TabController? _tabController;
+  PageController? _pageController;
   int _selectedTabIndex = 0;
 
   StoryBreakdownModel? _currentStoryBreakdownModel;
@@ -40,7 +39,15 @@ class _StoryDetailScreenState extends State<StoryDetailScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: tabList.length, vsync: this);
+    _pageController = PageController();
     _currentStoryBreakdownModel = widget.storyBreakdownModel;
+  }
+
+  @override
+  void dispose() {
+    _tabController?.dispose();
+    _pageController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -51,6 +58,7 @@ class _StoryDetailScreenState extends State<StoryDetailScreen>
       ),
       floatingActionButton: _selectedTabIndex.isEqual(1)
           ? FloatingActionButton(
+              shape: const CircleBorder(),
               onPressed: _ctaAddChapter,
               child: const Icon(Icons.add),
             )
@@ -72,7 +80,7 @@ class _StoryDetailScreenState extends State<StoryDetailScreen>
             controller: _tabController,
             isScrollable: true,
             onTap: (int index) {
-              setState(() => _selectedTabIndex = index);
+              _pageController!.jumpToPage(index);
             },
             tabs: tabList,
             labelStyle: AppTextStyle.instance.paragraph,
@@ -85,8 +93,12 @@ class _StoryDetailScreenState extends State<StoryDetailScreen>
   }
 
   Widget get _tabContentView {
-    return TabBarView(
-      controller: _tabController,
+    return PageView(
+      controller: _pageController,
+      onPageChanged: (int index) {
+        _tabController!.animateTo(index);
+        setState(() => _selectedTabIndex = index);
+      },
       children: [
         MapView(map: _currentStoryBreakdownModel?.storyMetadata?.toJson()),
         _bindDataListView(_currentStoryBreakdownModel?.chapterBreakdown),
@@ -156,7 +168,6 @@ class _StoryDetailScreenState extends State<StoryDetailScreen>
 
     if (storyBreakdownModel != null &&
         storyBreakdownModel is StoryBreakdownModel) {
-      log('XXX storyBreakdownModel ${storyBreakdownModel.toJson()}');
       setState(() => _currentStoryBreakdownModel = storyBreakdownModel);
     }
   }

@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'dart:developer';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
@@ -22,6 +21,7 @@ import 'package:story_weaver/system/service/bug_tracker.dart';
 import 'package:story_weaver/system/service/internal/story_file_management.dart';
 import 'package:story_weaver/system/service/navigator.dart';
 import 'package:story_weaver/system/variables/durations.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../../../system/service/share_service.dart';
 
@@ -49,7 +49,14 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
   @override
   void initState() {
     _generateStory();
+    WakelockPlus.enable();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WakelockPlus.disable();
+    super.dispose();
   }
 
   @override
@@ -86,15 +93,10 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
   }
 
   Widget get _mainView {
-    return Column(
-      children: [
-        ListView(
-          padding: AppSpacer.instance.edgeInsets.all.sm,
-          children: <Widget>[
-            _contentView,
-            if (_isShowAction) AppSpacer.instance.vHmd,
-          ],
-        ),
+    return ListView(
+      children: <Widget>[
+        _contentView,
+        AppSpacer.instance.vHxxl,
       ],
     );
   }
@@ -106,22 +108,27 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
 
     return Screenshot(
       controller: _ssController,
-      child: AppWaterMarkView(
-        child: DefaultTextStyle(
-          style: AppTextStyle.instance.storyGenerator,
-          child: AnimatedTextKit(
-            pause: kDuration100,
-            isRepeatingAnimation: false,
-            displayFullTextOnTap: true,
-            onTap: () {
-              setState(() => _isShowAction = true);
-            },
-            onFinished: () {
-              setState(() => _isShowAction = true);
-            },
-            animatedTexts: [
-              TypewriterAnimatedText(_storyText),
-            ],
+      child: Container(
+        padding: AppSpacer.instance.edgeInsets.all.sm,
+        color: AppColors.white,
+        child: AppWaterMarkView(
+          child: DefaultTextStyle(
+            style: AppTextStyle.instance.storyGenerator,
+            child: AnimatedTextKit(
+              pause: kDuration100,
+              isRepeatingAnimation: false,
+              displayFullTextOnTap: true,
+              onTap: () {
+                setState(() => _isShowAction = true);
+              },
+              onFinished: () {
+                WakelockPlus.disable();
+                setState(() => _isShowAction = true);
+              },
+              animatedTexts: [
+                TypewriterAnimatedText(_storyText.trim()),
+              ],
+            ),
           ),
         ),
       ),
@@ -221,6 +228,9 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
   }
 
   Future<void> _ctaShare() async {
+    if (_fabKey.currentState != null) {
+      _fabKey.currentState!.toggle();
+    }
     ShareService().shareScreenshot(context: context, controller: _ssController);
   }
 
@@ -272,14 +282,14 @@ class _StoryGeneratorScreenState extends State<StoryGeneratorScreen> {
 
       StoryFileManagement.instance.saveStory(
         storyBreakdownModel,
-        title: widget.storyBreakdownModel.storyMetadata?.title,
+        title: widget.storyBreakdownModel.storyMetadata?.title ??
+            storyBreakdownModel.storyMetadata?.title,
       );
 
       AppToast.sSuccess(context: context, text: 'Story saved successfully');
       AppDialog.instance.hLoading();
       AppNavigator.instance.pop(storyBreakdownModel);
     } catch (e) {
-      log('XXX error $e');
       AppDialog.instance.hLoading();
       AppDialog.instance.sError(
         context: context,

@@ -87,7 +87,7 @@ dependencies:
   lottie: ^3.0.0
   
   # This Flutter plugin provides an API for querying information about an application package.
-  package_info_plus: ^3.0.2
+  package_info_plus: ^6.0.0
   
   # A Flutter package to use fonts from fonts.google.com.
   google_fonts: ^4.0.0
@@ -98,13 +98,16 @@ dependencies:
   firebase_remote_config: ^4.2.7
 
   # A Flutter plugin to share content from your Flutter app via the platform's share dialog.
-  share_plus: ^6.0.1
+  share_plus: ^9.0.0
 
   # Flutter_expandable_fab is a speed dial FAB 
   flutter_expandable_fab: ^2.2.0
 
   # A simple package to capture widgets as Images. 
   screenshot: ^3.0.0
+
+  # Allows you to keep the device screen awake, i.e. prevent the screen from sleeping.
+  wakelock_plus: ^1.2.0
 
 dev_dependencies:
   flutter_test:

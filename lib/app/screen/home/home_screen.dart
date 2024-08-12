@@ -133,7 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _getStoryList() async {
     _storyList = await StoryFileManagement.instance.getStoryList();
-
     setState(() => _storyList ??= []);
   }
 

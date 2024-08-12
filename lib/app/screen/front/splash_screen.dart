@@ -131,7 +131,7 @@ class _SplashScreenState extends State<SplashScreen> {
               onTap: () {
                 if (_currentPage.isEqual(_introList.length - 1)) {
                   AppLocalStorage.instance.saveFirstLaunch(false);
-                  AppNavigator.instance.push(const HomeScreenRoute());
+                  AppNavigator.instance.replace(const HomeScreenRoute());
                 } else {
                   _changePage(_currentPage + 1);
                 }
@@ -143,21 +143,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Widget get _appNameView {
-    return DefaultTextStyle(
+    return Text(
+      'Story Weaver',
       style: GoogleFonts.dancingScript().copyWith(
         fontSize: 64,
         fontWeight: FontWeight.bold,
         color: AppColors.white,
-      ),
-      child: AnimatedTextKit(
-        pause: kDuration100,
-        isRepeatingAnimation: false,
-        animatedTexts: [
-          TyperAnimatedText(
-            'Story Weaver',
-            textAlign: TextAlign.center,
-          ),
-        ],
       ),
     );
   }

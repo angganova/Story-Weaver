@@ -106,7 +106,6 @@ class _StoryPreparationScreenState extends State<StoryPreparationScreen> {
         AppSpacer.instance.vHxs,
         _bindItemContentView(item),
         const Divider(),
-        AppSpacer.instance.vHsm,
       ],
     );
   }

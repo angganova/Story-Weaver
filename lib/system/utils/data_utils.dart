@@ -1,7 +1,7 @@
 import 'dart:math';
 
 class DataUtils {
-  static int getCurrentUnixTimestamp() {
+  static int get getCurrentUnixTimestamp {
     return DateTime.now().millisecondsSinceEpoch ~/ 1000;
   }
 

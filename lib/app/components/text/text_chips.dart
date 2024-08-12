@@ -24,6 +24,7 @@ class _TextChipsViewState extends State<TextChipsView> {
           controller: widget.controller,
           onChanged: _handleTextChanged,
           textInputAction: TextInputAction.done,
+          textCapitalization: TextCapitalization.words,
           onFieldSubmitted: (text) {
             _finishTextChanged(text);
           },
@@ -47,10 +48,11 @@ class _TextChipsViewState extends State<TextChipsView> {
   }
 
   void _handleTextChanged(String value) {
-    if (value.endsWith(',')) {
+    if (value.replaceAll(', ', ',').endsWith(',')) {
       setState(() {
         widget.selectedChips.addAll(
           value
+              .replaceAll(', ', ',')
               .split(',')
               .map((tag) => tag.trim())
               .where((tag) => tag.isNotEmpty),

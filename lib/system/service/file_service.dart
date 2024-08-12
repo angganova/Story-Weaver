@@ -231,7 +231,7 @@ class FileService {
       ExternalPath.DIRECTORY_DOCUMENTS,
     );
 
-    final String appDirectoryPath = '$path/KairosLos';
+    final String appDirectoryPath = '$path/StoryWeaver';
     return appDirectoryPath;
   }
 
